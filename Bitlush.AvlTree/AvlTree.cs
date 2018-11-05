@@ -122,7 +122,7 @@ namespace Bitlush
 
 		private void InsertBalance(AvlNode<TKey, TValue> node, int balance)
 		{
-			while (node != null)
+			while(true)
 			{
 				balance = (node.Balance += balance);
 
@@ -158,12 +158,9 @@ namespace Bitlush
 				}
 
 				AvlNode<TKey, TValue> parent = node.Parent;
+				if (parent == null)  return; //1 less compare per loop (was: also cmp in while(...))
 
-				if (parent != null)
-				{
-					balance = parent.Left == node ? 1 : -1;
-				}
-
+				balance = (parent.Left == node) ? 1 : -1;
 				node = parent;
 			}
 		}
@@ -184,7 +181,7 @@ namespace Bitlush
 				rightLeft.Parent = node;
 			}
 
-			if (node == _root)
+			if (parent == null) //was: (node == _root) --- slower
 			{
 				_root = right;
 			}
@@ -219,7 +216,7 @@ namespace Bitlush
 				leftRight.Parent = node;
 			}
 
-			if (node == _root)
+			if (parent == null) //was: (node == _root) --- slower
 			{
 				_root = left;
 			}
@@ -264,7 +261,7 @@ namespace Bitlush
 				leftRightLeft.Parent = left;
 			}
 
-			if (node == _root)
+			if (parent == null) //was: (node == _root) --- slower
 			{
 				_root = leftRight;
 			}
@@ -324,7 +321,7 @@ namespace Bitlush
 				rightLeftRight.Parent = right;
 			}
 
-			if (node == _root)
+			if (parent == null) //was: (node == _root) --- slower
 			{
 				_root = rightLeft;
 			}
@@ -462,7 +459,7 @@ namespace Bitlush
 
 		private void DeleteBalance(AvlNode<TKey, TValue> node, int balance)
 		{
-			while (node != null)
+			while (true)
 			{
 				balance = (node.Balance += balance);
 
@@ -504,12 +501,9 @@ namespace Bitlush
 				}
 
 				AvlNode<TKey, TValue> parent = node.Parent;
-
-				if (parent != null)
-				{
-					balance = parent.Left == node ? -1 : 1;
-				}
-
+				if(parent == null)  return; //1 less compare per loop (was: also cmp in while(...))
+				
+				balance = parent.Left == node ? -1 : 1;
 				node = parent;
 			}
 		}
