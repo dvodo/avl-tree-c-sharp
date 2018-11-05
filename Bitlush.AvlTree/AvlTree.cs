@@ -42,11 +42,12 @@ namespace Bitlush
 
 			while (node != null)
 			{
-				if (_comparer.Compare(key, node.Key) < 0)
+				int cmp = _comparer.Compare(key, node.Key);
+				if (cmp < 0)
 				{
 					node = node.Left;
 				}
-				else if (_comparer.Compare(key, node.Key) > 0)
+				else if (cmp > 0)
 				{
 					node = node.Right;
 				}
